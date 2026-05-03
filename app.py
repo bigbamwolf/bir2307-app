@@ -11,6 +11,144 @@ st.set_page_config(
     layout="centered",
 )
 
+# ── Custom CSS to match Pixelens branding ─────────────────────────────
+st.markdown("""
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --accent: #58c066;
+    --accent-deep: #136b0e;
+    --accent-bright: #66d773;
+    --ink: #231f20;
+    --muted: #808080;
+    --line: #cccccc;
+}
+
+html, body, [class*="css"] {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif !important;
+}
+
+.stApp {
+    background:
+        radial-gradient(circle at top left, rgba(102,215,115,0.18) 0, transparent 34%),
+        linear-gradient(135deg, #ffffff 0%, #f9f9f9 48%, #eef6ef 100%) !important;
+    border-top: 6px solid var(--accent);
+}
+
+/* Title */
+h1 {
+    letter-spacing: -0.04em !important;
+    color: var(--ink) !important;
+}
+
+/* Green underline after title */
+.stMainBlockContainer h1::after {
+    content: "";
+    display: block;
+    width: 96px;
+    height: 6px;
+    margin-top: 14px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+}
+
+/* Inputs */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stSelectbox > div > div {
+    border-radius: 16px !important;
+    border: 1px solid var(--line) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px rgba(88,192,102,0.20) !important;
+}
+
+/* Labels */
+.stTextInput label, .stNumberInput label, .stSelectbox label {
+    color: var(--accent-deep) !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.02em;
+}
+
+/* Primary buttons */
+.stButton > button[kind="primary"],
+.stButton > button[data-testid="stBaseButton-primary"] {
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep)) !important;
+    border: none !important;
+    border-radius: 999px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 12px 28px rgba(19,107,14,0.22) !important;
+    transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+.stButton > button[kind="primary"]:hover,
+.stButton > button[data-testid="stBaseButton-primary"]:hover {
+    background: linear-gradient(135deg, var(--accent-bright), var(--accent)) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 16px 34px rgba(19,107,14,0.28) !important;
+}
+
+/* Download button */
+.stDownloadButton > button {
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep)) !important;
+    border: none !important;
+    border-radius: 999px !important;
+    color: white !important;
+    font-weight: 800 !important;
+    box-shadow: 0 12px 28px rgba(19,107,14,0.22) !important;
+}
+
+.stDownloadButton > button:hover {
+    background: linear-gradient(135deg, var(--accent-bright), var(--accent)) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Expander (supplier card) */
+.streamlit-expanderHeader {
+    color: var(--accent-deep) !important;
+    font-weight: 800 !important;
+}
+
+[data-testid="stExpander"] {
+    border: 1px solid rgba(88,192,102,0.28) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f2faf3 100%) !important;
+}
+
+/* Metrics */
+[data-testid="stMetricValue"] {
+    color: var(--accent-deep) !important;
+}
+
+/* Info box */
+.stAlert {
+    border-radius: 16px !important;
+}
+
+/* Dividers */
+hr {
+    border-color: var(--line) !important;
+}
+
+/* Radio buttons */
+.stRadio label {
+    color: var(--ink) !important;
+    font-weight: 400 !important;
+    font-size: 15px !important;
+}
+
+/* Caption / footer */
+.stCaption, [data-testid="stCaptionContainer"] {
+    color: var(--muted) !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ── PDF layout constants ──────────────────────────────────────────────
 PAGE_W = 612
 PAGE_H = 936  # legal-ish size from the template
