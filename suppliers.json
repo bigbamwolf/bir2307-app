@@ -715,10 +715,10 @@
   },
   "Anzano": {
     "display_name": "Anzano",
-    "name": "ADRIELLE N. ESTEBAN",
-    "tin": "428-696-914-00000",
-    "address": "1116 QUEZON CITY NCR, SECOND DISTRICT, PHILIPPINES",
-    "zip": ""
+    "name": "ANZANO, JAY-R OLIVEROS",
+    "tin": "242-326-886-00000",
+    "address": "UNIT 1 002 MC ARTHUR HIGHWAY MAIMPIS CITY OF SAN FERNANDO PAMPANGA PHILIPPINES",
+    "zip": "2000"
   },
   "SAC-B": {
     "display_name": "SAC-B",
@@ -831,5 +831,33 @@
     "tin": "236-904-728-00000",
     "address": "68 MARIA FELIPE STREET TIERRA PURA HOMES CULIAT 1128 QUEZON CITY NCR, SECOND DISTRICT PHILIPPINES",
     "zip": ""
+  },
+  "OLIVEROS SALVADOR": {
+    "display_name": "OLIVEROS SALVADOR",
+    "name": "SALVADOR, SALVADOR OLIVEROS",
+    "tin": "183-330-474-00002",
+    "address": "UNIT 167-C A. BONIFACIO AVE., TAñONG CITY OF MARIKINA NCR, SECOND DISTRICT PHILIPPINES",
+    "zip": "1803"
+  },
+  "Brandy": {
+    "display_name": "Brandy",
+    "name": "FUENTES, BRANDY ALLEN SUSADA",
+    "tin": "199-297-286-00000",
+    "address": "30 TLR TOWNHOUSE FAST TRACK STREET MOONWALK 1 1709 CITY OF PARAÑAQUE NRC, FOURTH DISTRICT PHILIPPINES",
+    "zip": "0000"
+  },
+  "LOAF": {
+    "display_name": "LOAF",
+    "name": "MONTES, JOHN CARLO A.",
+    "tin": "647-286-820-00000",
+    "address": "5 GETTY ST., FILINVEST 2 BATASAN HILLS, QUEZON CITY NCR, SECOND DISTRICT, PHILIPPINES",
+    "zip": "1126"
+  },
+  "Babiano": {
+    "display_name": "Babiano",
+    "name": "BABIANO, ADZEL DOMINGO",
+    "tin": "426-312-632-00000",
+    "address": "1 18 1A KAIMITO ST. PALMERA HOMES SANTA MONICA QUEZON CITY NCR, SECOND DISTRICT PHILIPPINES",
+    "zip": "1117"
   }
 }
