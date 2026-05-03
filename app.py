@@ -437,8 +437,47 @@ if chosen_month:
 
 st.divider()
 
-amount = st.number_input("Gross amount (₱)",
-                         min_value=0.0, value=0.0, step=500.0, format="%.2f")
+amount_str = st.text_input("Gross amount (₱)", value="", placeholder="Example: 150000")
+
+amount = 0.0
+if amount_str:
+    try:
+        amount = float(amount_str.replace(",", ""))
+    except ValueError:
+        st.error("Please enter a valid number.")
+
+st.markdown("""
+<script>
+(function() {
+    function formatAmountInputs() {
+        const labels = document.querySelectorAll('[data-testid="stTextInput"] label');
+        labels.forEach(function(label) {
+            if (label.textContent.indexOf('Gross amount') !== -1) {
+                const input = label.closest('[data-testid="stTextInput"]').querySelector('input');
+                if (input && !input.dataset.formatted) {
+                    input.dataset.formatted = 'true';
+                    input.addEventListener('input', function(e) {
+                        var pos = e.target.selectionStart;
+                        var oldLen = e.target.value.length;
+                        var raw = e.target.value.replace(/[^0-9.]/g, '');
+                        var parts = raw.split('.');
+                        parts[0] = parts[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
+                        var formatted = parts.length > 1 ? parts[0] + '.' + parts[1] : parts[0];
+                        e.target.value = formatted;
+                        var newLen = formatted.length;
+                        var newPos = pos + (newLen - oldLen);
+                        e.target.setSelectionRange(newPos, newPos);
+                    });
+                }
+            }
+        });
+    }
+    formatAmountInputs();
+    var obs = new MutationObserver(formatAmountInputs);
+    obs.observe(document.body, {childList: true, subtree: true});
+})();
+</script>
+""", unsafe_allow_html=True)
 
 if amount > 0 and chosen_month and chosen_name:
     m_num = MONTHS.index(chosen_month) + 1
