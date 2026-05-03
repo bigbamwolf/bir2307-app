@@ -31,21 +31,25 @@ ATC_CODE = "WI120"
 TAX_RATE = 0.02   # 2 % expanded withholding tax
 
 # ── Field coordinates (reportlab: y = 0 at bottom) ───────────────────
-# Dates ─ 8 individual digit boxes, MMDDYYYY
-FROM_DATE_X  = 152
-TO_DATE_X    = 395
-DATE_Y       = 820
-DATE_BOX_W   = 14.1   # width of each digit box (~113 pts / 8 digits)
+# All x/y derived from pdfplumber rect/edge analysis of template.pdf
 
-# Payee TIN  (field 2)  –  4 segments
-# dash x positions from pdfplumber: 250.9 / 302.3 / 353.6
-PAYEE_TIN_SEGS = [
-    (165, 28.7),   # seg 1: 3 digits  x=165-250
-    (257, 15.3),   # seg 2: 3 digits  x=257-302
-    (308, 15.0),   # seg 3: 3 digits  x=308-353
-    (360, 28.6),   # seg 4: 5 digits  x=360-500
+# Dates – 8 digit boxes per date (MMDDYYYY, slashes pre-printed on form)
+# From: boxes x=151.5–256.8  |  To: boxes x=399.1–504.4
+FROM_DATE_X = 151.5
+TO_DATE_X   = 399.1
+DATE_Y      = 820        # reportlab baseline (box spans rl y=813.7–829.6)
+DATE_BOX_W  = 13.16      # exact: 105.3pt / 8 boxes
+
+# TIN – 4 segments, each box measured from actual PDF rectangles
+# Seg1: x=207.2–246.8  Seg2: x=258.9–298.4  Seg3: x=310.2–349.8  Seg4: x=361.5–435.4
+TIN_SEGS = [
+    (207.2, 13.2),    # seg 1: 3 digits  (39.6pt / 3)
+    (258.9, 13.2),    # seg 2: 3 digits
+    (310.2, 13.2),    # seg 3: 3 digits
+    (361.5, 14.78),   # seg 4: 5 digits  (73.9pt / 5)
 ]
-PAYEE_TIN_Y = 787
+PAYEE_TIN_SEGS = TIN_SEGS
+PAYEE_TIN_Y    = 787     # reportlab baseline (box spans rl y=783.1–798.7)
 
 PAYEE_NAME_X = 22
 PAYEE_NAME_Y = 758
@@ -56,9 +60,9 @@ PAYEE_ADDR_Y = 728
 PAYEE_ZIP_X  = 543
 PAYEE_ZIP_Y  = 728
 
-# Payor TIN  (field 6)  –  same x, different y
-PAYOR_TIN_SEGS = PAYEE_TIN_SEGS
-PAYOR_TIN_Y    = 672
+# Payor TIN – same x segments, different y
+PAYOR_TIN_SEGS = TIN_SEGS
+PAYOR_TIN_Y    = 670     # reportlab baseline (box spans rl y=667.5–683.5)
 
 PAYOR_NAME_X = 22
 PAYOR_NAME_Y = 642
@@ -69,14 +73,16 @@ PAYOR_ADDR_Y = 614
 PAYOR_ZIP_X  = 543
 PAYOR_ZIP_Y  = 614
 
-# Part III – first ATC row  (expanded withholding section)
-P3_Y      = 562
-P3_ATC_X  = 187   # left-align
-P3_M1_X   = 283   # right-align edge for 1st month amount
-P3_M2_X   = 356   # right-align edge for 2nd month amount
-P3_M3_X   = 427   # right-align edge for 3rd month amount
-P3_TOT_X  = 490   # right-align edge for total
-P3_TAX_X  = 605   # right-align edge for tax withheld
+# Part III – column right edges measured from PDF vertical lines
+# Columns: x end at 220 / 292 / 366 / 438 / 510 / 596
+# First data row: pdfplumber y=365.3–378.5  →  reportlab baseline ≈ 560
+P3_Y     = 560
+P3_ATC_X = 181    # left-align in ATC column  (col x=181–220)
+P3_M1_X  = 290    # right-align 1st month     (col right edge x=292)
+P3_M2_X  = 364    # right-align 2nd month     (col right edge x=366)
+P3_M3_X  = 436    # right-align 3rd month     (col right edge x=438)
+P3_TOT_X = 508    # right-align total         (col right edge x=510)
+P3_TAX_X = 594    # right-align tax withheld  (col right edge x=596)
 
 # ── Drawing helpers ───────────────────────────────────────────────────
 
