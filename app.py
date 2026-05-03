@@ -469,4 +469,4 @@ if st.button("Generate & Download PDF", type="primary", disabled=not ready):
     )
 
 st.divider()
-st.caption("Proprietary work authored and owned by Arwin Edward M. Bagaslao, contributed to Pixelens Creative Advertising Inc. for internal operational use only. Operational use does not constitute ownership transfer. Ownership retained unless assigned in writing. This document is strictly confidential and may only be used by Pixelens Creative Advertising Inc.")
+st.caption("Proprietary application authored and owned by Arwin Edward M. Bagaslao, contributed to Pixelens Creative Advertising Inc. for internal operational use only. Operational use does not constitute ownership transfer. Ownership retained unless assigned in writing. This application is strictly confidential and may only be used by Pixelens Creative Advertising Inc.")
