@@ -7,7 +7,7 @@ from reportlab.pdfgen import canvas
 # ── Page config ──────────────────────────────────────────────────────
 st.set_page_config(
     page_title="BIR Form 2307 Generator",
-    page_icon="📄",
+    page_icon=None,
     layout="centered",
 )
 
@@ -234,8 +234,8 @@ def search_suppliers(query: str, suppliers: dict) -> list:
 
 # ── UI ────────────────────────────────────────────────────────────────
 
-st.title("📄 BIR Form 2307 Generator")
-st.caption("Certificate of Creditable Tax Withheld at Source  ·  Pixelens Creative Advertising Inc.")
+st.title("BIR Form 2307 Generator")
+st.caption("Proprietary work authored and owned by Arwin Edward M. Bagaslao, contributed to Pixelens Creative Advertising Inc. for internal operational use only. Operational use does not constitute ownership transfer. Ownership retained unless assigned in writing. This document is strictly confidential and may only be used by Pixelens Creative Advertising Inc.")
 
 suppliers = load_suppliers()
 
