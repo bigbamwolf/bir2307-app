@@ -3,7 +3,6 @@ import json
 import io
 from pypdf import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
-from reportlab.lib.units import pt
 
 # ── Page config ──────────────────────────────────────────────────────
 st.set_page_config(
