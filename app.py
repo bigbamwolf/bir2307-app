@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import json
 import io
 from pypdf import PdfReader, PdfWriter
@@ -345,7 +346,6 @@ def generate_pdf(payee: dict, month_num: int, amount: float, year: int, atc_code
 
 # ── Load suppliers ────────────────────────────────────────────────────
 
-@st.cache_data
 def load_suppliers():
     with open("suppliers.json", encoding="utf-8") as f:
         return json.load(f)
@@ -446,14 +446,16 @@ if amount_str:
     except ValueError:
         st.error("Please enter a valid number.")
 
-st.markdown("""
+components.html("""
 <script>
 (function() {
+    var doc = window.parent.document;
     function formatAmountInputs() {
-        const labels = document.querySelectorAll('[data-testid="stTextInput"] label');
-        labels.forEach(function(label) {
-            if (label.textContent.indexOf('Gross amount') !== -1) {
-                const input = label.closest('[data-testid="stTextInput"]').querySelector('input');
+        var labels = doc.querySelectorAll('[data-testid="stTextInput"] label');
+        for (var i = 0; i < labels.length; i++) {
+            if (labels[i].textContent.indexOf('Gross amount') !== -1) {
+                var container = labels[i].closest('[data-testid="stTextInput"]');
+                var input = container ? container.querySelector('input') : null;
                 if (input && !input.dataset.formatted) {
                     input.dataset.formatted = 'true';
                     input.addEventListener('input', function(e) {
@@ -470,14 +472,14 @@ st.markdown("""
                     });
                 }
             }
-        });
+        }
     }
-    formatAmountInputs();
-    var obs = new MutationObserver(formatAmountInputs);
-    obs.observe(document.body, {childList: true, subtree: true});
+    setTimeout(formatAmountInputs, 500);
+    var obs = new MutationObserver(function() { setTimeout(formatAmountInputs, 100); });
+    obs.observe(doc.body, {childList: true, subtree: true});
 })();
 </script>
-""", unsafe_allow_html=True)
+""", height=0)
 
 if amount > 0 and chosen_month and chosen_name:
     m_num = MONTHS.index(chosen_month) + 1
@@ -502,7 +504,6 @@ if st.button("Generate & Download PDF", type="primary", disabled=not ready):
                 suppliers[chosen_name]["zip"] = zip_input.strip()
                 with open("suppliers.json", "w", encoding="utf-8") as f:
                     json.dump(suppliers, f, indent=2, ensure_ascii=False)
-                st.cache_data.clear()
 
         m_num    = MONTHS.index(chosen_month) + 1
         atc_code = get_atc(payee["name"])
