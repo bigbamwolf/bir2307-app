@@ -363,7 +363,7 @@ if "selected_supplier" not in st.session_state:
 
 st.divider()
 
-search = st.text_input("🔍 Type your name", placeholder="e.g. Bon Jovi, TANGCO, Parallax…")
+search = st.text_input("Supplier name", placeholder="Start typing supplier name")
 
 chosen_name = None
 
@@ -401,14 +401,14 @@ st.divider()
 
 c1, c2 = st.columns(2)
 with c1:
-    chosen_month = st.selectbox("📅 Month of payment", options=[""] + MONTHS,
+    chosen_month = st.selectbox("Month of payment", options=[""] + MONTHS,
                                 format_func=lambda x: "— select —" if x == "" else x)
 with c2:
     zip_default = ""
     if chosen_name and chosen_name in suppliers:
         zip_default = suppliers[chosen_name].get("zip", "")
-    zip_input = st.text_input("📮 ZIP Code", value=zip_default,
-                              placeholder="e.g. 1600")
+    zip_input = st.text_input("ZIP Code", value=zip_default,
+                              placeholder="Leave blank if unknown")
 
 if chosen_month:
     m_num = MONTHS.index(chosen_month) + 1
@@ -424,7 +424,7 @@ if chosen_month:
 
 st.divider()
 
-amount = st.number_input("💰 Total income payment received (₱)",
+amount = st.number_input("Gross amount (₱)",
                          min_value=0.0, value=0.0, step=500.0, format="%.2f")
 
 if amount > 0 and chosen_month and chosen_name:
@@ -441,7 +441,7 @@ st.divider()
 
 ready = chosen_name and chosen_month and amount > 0
 
-if st.button("⬇️  Generate & Download PDF", type="primary", disabled=not ready):
+if st.button("Generate & Download PDF", type="primary", disabled=not ready):
     with st.spinner("Filling form…"):
         payee = dict(suppliers[chosen_name])
         if zip_input.strip():
@@ -461,7 +461,7 @@ if st.button("⬇️  Generate & Download PDF", type="primary", disabled=not rea
 
     st.success("PDF ready! Click below to download.")
     st.download_button(
-        label="📥  Download your BIR Form 2307",
+        label="Download filled PDF",
         data=pdf_data,
         file_name=fname,
         mime="application/pdf",
