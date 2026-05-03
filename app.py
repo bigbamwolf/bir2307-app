@@ -288,7 +288,7 @@ with c2:
     zip_default = ""
     if chosen_name and chosen_name in suppliers:
         zip_default = suppliers[chosen_name].get("zip", "")
-    zip_input = st.text_input("📮 ZIP Code", value=zip_default, max_chars=4,
+    zip_input = st.text_input("📮 ZIP Code", value=zip_default,
                               placeholder="e.g. 1600")
 
 if chosen_month:
