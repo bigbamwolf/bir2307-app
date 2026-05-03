@@ -68,6 +68,7 @@ h1 {
     background: linear-gradient(135deg, #58c066, #136b0e) !important;
     border: none !important;
     border-radius: 999px !important;
+    color: #ffffff !important;
     font-weight: 800 !important;
     box-shadow: 0 12px 28px rgba(19,107,14,0.22) !important;
     transition: transform 0.18s ease, box-shadow 0.18s ease !important;
@@ -354,7 +355,7 @@ def search_suppliers(query: str, suppliers: dict) -> list:
 # ── UI ────────────────────────────────────────────────────────────────
 
 st.title("BIR Form 2307 Generator")
-st.caption("Search your name, select the month of payment, enter your ZIP code and total amount received, then download your filled BIR 2307.")
+st.markdown('<p style="color:#231f20; font-size:17px; line-height:1.55;">Search your name, select the month of payment, enter your ZIP code and total amount received, then download your filled BIR 2307.</p>', unsafe_allow_html=True)
 
 suppliers = load_suppliers()
 
