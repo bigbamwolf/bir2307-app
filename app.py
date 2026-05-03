@@ -127,6 +127,18 @@ hr {
 .stCaption, [data-testid="stCaptionContainer"] {
     color: #808080 !important;
 }
+
+/* Hide toolbar, deploy button, and manage app */
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+#MainMenu,
+footer,
+header[data-testid="stHeader"] .stDeployButton,
+.stDeployButton,
+[data-testid="manage-app-button"] {
+    display: none !important;
+    visibility: hidden !important;
+}
 </style>
 """
 st.markdown(_CSS, unsafe_allow_html=True)
