@@ -50,26 +50,27 @@ TIN_SEGS = [
 PAYEE_TIN_SEGS = TIN_SEGS
 PAYEE_TIN_Y    = 787     # reportlab baseline (box spans rl y=783.1–798.7)
 
-PAYEE_NAME_X = 32
+PAYEE_NAME_X = 38
 PAYEE_NAME_Y = 758
 
-PAYEE_ADDR_X = 32
+PAYEE_ADDR_X = 38
 PAYEE_ADDR_Y = 728
 
-PAYEE_ZIP_X  = 543
+PAYEE_ZIP_X  = 541.8
 PAYEE_ZIP_Y  = 728
+ZIP_BOX_W    = 12.5    # 50pt / 4 digits
 
 # Payor TIN – same x segments, different y
 PAYOR_TIN_SEGS = TIN_SEGS
 PAYOR_TIN_Y    = 670     # reportlab baseline (box spans rl y=667.5–683.5)
 
-PAYOR_NAME_X = 32
+PAYOR_NAME_X = 38
 PAYOR_NAME_Y = 642
 
-PAYOR_ADDR_X = 32
+PAYOR_ADDR_X = 38
 PAYOR_ADDR_Y = 614
 
-PAYOR_ZIP_X  = 543
+PAYOR_ZIP_X  = 541.8
 PAYOR_ZIP_Y  = 614
 
 # Part III – column right edges measured from PDF vertical lines
@@ -100,6 +101,13 @@ def draw_tin(c, tin: str, segs, y: float):
         half = (bw - 4) / 2
         for j, ch in enumerate(part.strip()):
             c.drawString(seg_x + j * bw + half, y, ch)
+
+
+def draw_zip(c, zip_code: str, start_x: float, y: float):
+    """Write ZIP digits into individual boxes."""
+    half = (ZIP_BOX_W - 4) / 2
+    for i, ch in enumerate(zip_code.strip()):
+        c.drawString(start_x + i * ZIP_BOX_W + half, y, ch)
 
 
 def draw_right(c, text: str, right_x: float, y: float):
@@ -156,13 +164,13 @@ def generate_pdf(payee: dict, month_num: int, amount: float, year: int) -> bytes
     draw_tin(c, payee["tin"], PAYEE_TIN_SEGS, PAYEE_TIN_Y)
     c.drawString(PAYEE_NAME_X, PAYEE_NAME_Y, payee["name"])
     c.drawString(PAYEE_ADDR_X, PAYEE_ADDR_Y, payee["address"])
-    c.drawString(PAYEE_ZIP_X,  PAYEE_ZIP_Y,  payee["zip"])
+    draw_zip(c, payee["zip"], PAYEE_ZIP_X, PAYEE_ZIP_Y)
 
     # Payor
     draw_tin(c, PAYOR["tin"], PAYOR_TIN_SEGS, PAYOR_TIN_Y)
     c.drawString(PAYOR_NAME_X, PAYOR_NAME_Y, PAYOR["name"])
     c.drawString(PAYOR_ADDR_X, PAYOR_ADDR_Y, PAYOR["address"])
-    c.drawString(PAYOR_ZIP_X,  PAYOR_ZIP_Y,  PAYOR["zip"])
+    draw_zip(c, PAYOR["zip"], PAYOR_ZIP_X, PAYOR_ZIP_Y)
 
     # Part III
     c.drawString(P3_ATC_X, P3_Y, ATC_CODE)
