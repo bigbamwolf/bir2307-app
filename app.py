@@ -26,8 +26,16 @@ PAYOR = {
     "zip":     "1870",
 }
 
-ATC_CODE = "WI120"
 TAX_RATE = 0.02   # 2 % expanded withholding tax
+
+CORP_KEYWORDS = ["INCORPORATED", "INC.", "INC", "CORP.", "CORP", "CORPORATION"]
+
+def get_atc(supplier_name: str) -> str:
+    upper = supplier_name.upper()
+    for kw in CORP_KEYWORDS:
+        if kw in upper:
+            return "WC100"
+    return "WI120"
 
 # ── Field coordinates (reportlab: y = 0 at bottom) ───────────────────
 # All x/y derived from pdfplumber rect/edge analysis of template.pdf
@@ -146,7 +154,7 @@ def quarter_info(month_num: int, year: int):
 
 # ── PDF generation ────────────────────────────────────────────────────
 
-def generate_pdf(payee: dict, month_num: int, amount: float, year: int) -> bytes:
+def generate_pdf(payee: dict, month_num: int, amount: float, year: int, atc_code: str = "WI120") -> bytes:
     from_str, to_str, m_in_q, q = quarter_info(month_num, year)
     tax   = round(amount * TAX_RATE, 2)
     total = amount
@@ -173,7 +181,7 @@ def generate_pdf(payee: dict, month_num: int, amount: float, year: int) -> bytes
     draw_zip(c, PAYOR["zip"], PAYOR_ZIP_X, PAYOR_ZIP_Y)
 
     # Part III
-    c.drawString(P3_ATC_X, P3_Y, ATC_CODE)
+    c.drawString(P3_ATC_X, P3_Y, atc_code)
     if m_in_q == 1:
         draw_right(c, fmt(amount), P3_M1_X, P3_Y)
     elif m_in_q == 2:
@@ -211,27 +219,56 @@ def load_suppliers():
         return json.load(f)
 
 
+# ── Supplier search helper ────────────────────────────────────────────
+
+def search_suppliers(query: str, suppliers: dict) -> list:
+    q = query.lower()
+    results = []
+    for key, sup in suppliers.items():
+        if (q in key.lower()
+                or q in sup["name"].lower()
+                or q in sup.get("display_name", "").lower()):
+            results.append(key)
+    return sorted(results)
+
+
 # ── UI ────────────────────────────────────────────────────────────────
 
 st.title("📄 BIR Form 2307 Generator")
 st.caption("Certificate of Creditable Tax Withheld at Source  ·  Pixelens Creative Advertising Inc.")
 
 suppliers = load_suppliers()
-names     = sorted(suppliers.keys())
+
+if "selected_supplier" not in st.session_state:
+    st.session_state.selected_supplier = None
 
 st.divider()
 
-c1, c2 = st.columns(2)
-with c1:
-    chosen_name = st.selectbox("🔍 Your name", options=[""] + names,
-                               format_func=lambda x: "— select —" if x == "" else x)
-with c2:
-    chosen_month = st.selectbox("📅 Month of payment", options=[""] + MONTHS,
-                                format_func=lambda x: "— select —" if x == "" else x)
+search = st.text_input("🔍 Type your name", placeholder="e.g. Bon Jovi, TANGCO, Parallax…")
 
-# Show payee preview
-if chosen_name:
+chosen_name = None
+
+if search and len(search) >= 4:
+    matches = search_suppliers(search, suppliers)
+    if len(matches) == 1:
+        chosen_name = matches[0]
+        st.session_state.selected_supplier = chosen_name
+    elif matches:
+        pick = st.radio("Select your name:", matches, index=None)
+        if pick:
+            chosen_name = pick
+            st.session_state.selected_supplier = pick
+    else:
+        st.warning("No match found. Try a different name.")
+elif search and len(search) < 4:
+    st.caption("Keep typing… (minimum 4 characters)")
+
+if chosen_name is None and st.session_state.selected_supplier and search:
+    chosen_name = st.session_state.selected_supplier
+
+if chosen_name and chosen_name in suppliers:
     p = suppliers[chosen_name]
+    atc_code = get_atc(p["name"])
     with st.expander("Your details (auto-filled from database)", expanded=True):
         col_a, col_b = st.columns([2, 1])
         with col_a:
@@ -239,9 +276,21 @@ if chosen_name:
             st.write(f"**Address:** {p['address']}")
         with col_b:
             st.write(f"**TIN:** {p['tin']}")
-            st.write(f"**ZIP:** {p['zip']}")
+            st.write(f"**ATC:** {atc_code}")
 
-# Quarter preview
+st.divider()
+
+c1, c2 = st.columns(2)
+with c1:
+    chosen_month = st.selectbox("📅 Month of payment", options=[""] + MONTHS,
+                                format_func=lambda x: "— select —" if x == "" else x)
+with c2:
+    zip_default = ""
+    if chosen_name and chosen_name in suppliers:
+        zip_default = suppliers[chosen_name].get("zip", "")
+    zip_input = st.text_input("📮 ZIP Code", value=zip_default, max_chars=4,
+                              placeholder="e.g. 1600")
+
 if chosen_month:
     m_num = MONTHS.index(chosen_month) + 1
     year  = 2026
@@ -259,15 +308,15 @@ st.divider()
 amount = st.number_input("💰 Total income payment received (₱)",
                          min_value=0.0, value=0.0, step=500.0, format="%.2f")
 
-if amount > 0 and chosen_month:
+if amount > 0 and chosen_month and chosen_name:
     m_num = MONTHS.index(chosen_month) + 1
-    _, _, _, q = quarter_info(m_num, 2026)
+    atc_code = get_atc(suppliers[chosen_name]["name"])
     tax = round(amount * TAX_RATE, 2)
     ca, cb = st.columns(2)
     with ca:
         st.metric("Income Payment", f"₱{amount:,.2f}")
     with cb:
-        st.metric("2% Tax Withheld (WI120)", f"₱{tax:,.2f}")
+        st.metric(f"2% Tax Withheld ({atc_code})", f"₱{tax:,.2f}")
 
 st.divider()
 
@@ -275,9 +324,18 @@ ready = chosen_name and chosen_month and amount > 0
 
 if st.button("⬇️  Generate & Download PDF", type="primary", disabled=not ready):
     with st.spinner("Filling form…"):
-        payee    = suppliers[chosen_name]
+        payee = dict(suppliers[chosen_name])
+        if zip_input.strip():
+            payee["zip"] = zip_input.strip()
+            if suppliers[chosen_name].get("zip", "") != zip_input.strip():
+                suppliers[chosen_name]["zip"] = zip_input.strip()
+                with open("suppliers.json", "w", encoding="utf-8") as f:
+                    json.dump(suppliers, f, indent=2, ensure_ascii=False)
+                st.cache_data.clear()
+
         m_num    = MONTHS.index(chosen_month) + 1
-        pdf_data = generate_pdf(payee, m_num, amount, year=2026)
+        atc_code = get_atc(payee["name"])
+        pdf_data = generate_pdf(payee, m_num, amount, year=2026, atc_code=atc_code)
 
         safe = chosen_name.replace(",", "").replace(" ", "_").upper()
         fname = f"2307_{safe}_{chosen_month.upper()}_2026.pdf"
@@ -291,4 +349,4 @@ if st.button("⬇️  Generate & Download PDF", type="primary", disabled=not rea
     )
 
 st.divider()
-st.caption("ATC: WI120 · 2% Expanded Withholding Tax · Professional/talent fees")
+st.caption("ATC: WI120 (individuals) · WC100 (corporations) · 2% Expanded Withholding Tax")
