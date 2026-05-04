@@ -354,12 +354,11 @@ def load_suppliers():
 # ── Supplier search helper ────────────────────────────────────────────
 
 def search_suppliers(query: str, suppliers: dict) -> list:
-    q = query.lower()
+    words = query.lower().split()
     results = []
     for key, sup in suppliers.items():
-        if (q in key.lower()
-                or q in sup["name"].lower()
-                or q in sup.get("display_name", "").lower()):
+        haystack = f"{key} {sup['name']} {sup.get('display_name', '')}".lower()
+        if all(w in haystack for w in words):
             results.append(key)
     return sorted(results)
 
