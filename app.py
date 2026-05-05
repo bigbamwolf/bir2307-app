@@ -365,6 +365,7 @@ def search_suppliers(query: str, suppliers: dict) -> list:
 
 # ── UI ────────────────────────────────────────────────────────────────
 
+st.image("pixelens-logo.png", width=220)
 st.title("BIR Form 2307 Generator")
 st.markdown('<p style="color:#231f20; font-size:17px; line-height:1.55;">Search your name, select the month of payment, enter your ZIP code and total amount received, then download your filled BIR 2307.</p>', unsafe_allow_html=True)
 
