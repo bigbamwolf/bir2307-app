@@ -355,12 +355,16 @@ def load_suppliers():
 
 def search_suppliers(query: str, suppliers: dict) -> list:
     words = query.lower().split()
-    results = []
+    scored = []
     for key, sup in suppliers.items():
-        haystack = f"{key} {sup['name']} {sup.get('display_name', '')}".lower()
-        if all(w in haystack for w in words):
-            results.append(key)
-    return sorted(results)
+        haystack = f"{key} {sup['name']} {sup.get('display_name', '')} {sup.get('trade_name', '')}".lower()
+        hits = sum(1 for w in words if w in haystack)
+        if hits == len(words):
+            scored.append((key, hits + 10))
+        elif len(words) >= 2 and hits >= 2:
+            scored.append((key, hits))
+    scored.sort(key=lambda x: (-x[1], x[0]))
+    return [s[0] for s in scored]
 
 
 # ── UI ────────────────────────────────────────────────────────────────
@@ -437,7 +441,17 @@ if chosen_month:
 
 st.divider()
 
-amount_str = st.text_input("Gross amount (₱)", value="", placeholder="Example: 150000")
+amount_label = "Income payment (₱)"
+if chosen_name and chosen_name in suppliers:
+    sup_name = suppliers[chosen_name]["name"].upper()
+    is_corp = any(kw in sup_name for kw in CORP_KEYWORDS)
+    if is_corp:
+        amount_label = "Vatable Sales (₱)"
+    else:
+        amount_label = "Total Sales (₱)"
+
+amount_str = st.text_input(amount_label, value="", placeholder="Example: 150,000")
+st.caption("Enter Vatable Sales if VAT registered, or Total Sales if non-VAT. This is the amount before withholding tax.")
 
 amount = 0.0
 if amount_str:
@@ -453,7 +467,7 @@ components.html("""
     function formatAmountInputs() {
         var labels = doc.querySelectorAll('[data-testid="stTextInput"] label');
         for (var i = 0; i < labels.length; i++) {
-            if (labels[i].textContent.indexOf('Gross amount') !== -1) {
+            if (labels[i].textContent.indexOf('Sales') !== -1 || labels[i].textContent.indexOf('Income payment') !== -1) {
                 var container = labels[i].closest('[data-testid="stTextInput"]');
                 var input = container ? container.querySelector('input') : null;
                 if (input && !input.dataset.formatted) {
