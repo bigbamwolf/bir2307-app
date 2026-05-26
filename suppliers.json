@@ -875,5 +875,13 @@
     "address": "UNIT 202 THE RENAISSANCE BLDG SALCEDO ST LEGASPI VILLAGE MAKATI CITY NCR FOURTH DISTRICT PHILIPPINES",
     "zip": "1229",
     "trade_name": "JEFFREY STA ANA DE LEON"
+  },
+  "Alta Guia": {
+    "display_name": "Alta Guia",
+    "name": "ALTA GUIA CORP.",
+    "tin": "010-688-924-00000",
+    "address": "37 BAGONG CALZADA STREET USUSAN 1639 TAGUIG CITY NCR FOURTH DISTRICT PHILIPPINES",
+    "zip": "1639",
+    "trade_name": "ALTA GUIA EVENTS PLACE"
   }
 }
