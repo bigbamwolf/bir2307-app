@@ -44,7 +44,7 @@
   "BEYOND EVENTS": {
     "display_name": "BEYOND EVENTS",
     "name": "BEYOND EVENTS PRODUCTION MANAGEMENT, INC.",
-    "tin": "009-877-237-00000",
+    "tin": "009-477-247-00000",
     "address": "1507B D. OLIMAN STREET VALENZUELA MAKATI CITY",
     "zip": ""
   },
@@ -121,7 +121,7 @@
   "John Eguia": {
     "display_name": "John Eguia",
     "name": "THE DIGITAL JUAN PRODUCTIONS INC.",
-    "tin": "179-187-920-00000",
+    "tin": "010-742-126-00000",
     "address": "UNIT 305 LN BUSINESS CENTER A BONIFACIO AVE SANTO DOMINGO CAINTA RIZAL PHILIPPINES",
     "zip": ""
   },
@@ -212,7 +212,7 @@
   "Miguel Chiu": {
     "display_name": "Miguel Chiu",
     "name": "CHIU, MIGUELITO HERNANDEZ",
-    "tin": "420-993-200-00000",
+    "tin": "651-335-592-00000",
     "address": "64 M. PINTO ST. BISIG CITY OF VALENZUELA NCR, THIRD DISTRICT PHILIPPINES",
     "zip": ""
   },
@@ -226,7 +226,7 @@
   "Morod": {
     "display_name": "Morod",
     "name": "MOROD, ELDRIDGE RENZ BENDANILLO",
-    "tin": "420-993-200-00000",
+    "tin": "486-039-532-00000",
     "address": "ABS CBN MOTHER IGNACIA ST DILIMAN QUEZON CTIY",
     "zip": ""
   },
@@ -422,7 +422,7 @@
   "CASIANO LAYAO": {
     "display_name": "CASIANO LAYAO",
     "name": "IMATONG, EMILY L.",
-    "tin": "422-697-249-00001",
+    "tin": "140-863-795-00000",
     "address": "220 BAYANIHAN ST., BRGY. 159, BAESA, CALOOCAN CITY",
     "zip": ""
   },
@@ -710,7 +710,7 @@
   "FOUR POINT ZERO": {
     "display_name": "FOUR POINT ZERO",
     "name": "REY DE MARTIN CANETE",
-    "tin": "204-565-737-00000",
+    "tin": "206-565-237-00910",
     "address": "UNIT 405 PROMAX PLACE 1672 DIAN ST., SAN ISIDRO CITY OF MAKATI NCR, FOURTH DISTRIC PHILIPPINES",
     "zip": ""
   },
@@ -752,7 +752,7 @@
   "GREGORIO": {
     "display_name": "GREGORIO",
     "name": "GREGORIO, JUAN DONATO SANTIAGO",
-    "tin": "446-481-040-00000",
+    "tin": "446-481-040-00009",
     "address": "32-D PERTH ST. BF THAI CAA LAS PINAS CITY",
     "zip": ""
   },
@@ -772,7 +772,7 @@
   },
   "GARCIA": {
     "display_name": "GARCIA",
-    "name": "GREGORIO, JUAN DONATO SANTIAGO",
+    "name": "GARCIA, FRANCIS PANGILINAN",
     "tin": "272-223-714-00000",
     "address": "32-D PERTH ST. BF THAI CAA LAS PINAS CITY",
     "zip": ""
@@ -882,6 +882,44 @@
     "tin": "010-688-924-00000",
     "address": "37 BAGONG CALZADA STREET USUSAN 1639 TAGUIG CITY NCR FOURTH DISTRICT PHILIPPINES",
     "zip": "1639",
-    "trade_name": "ALTA GUIA EVENTS PLACE"
+    "trade_name": "ALTA GUIA EVENTS PLACE",
+    "vat_status": "Non-VAT",
+    "line_of_business": "EVENTS PLACE RENTAL",
+    "psic": "96409",
+    "rdo": "044 - TAGUIG-PATEROS",
+    "registration_date": "2022-06-24",
+    "tin_issuance_date": "2022-06-01",
+    "ocn": "044RC20220000003796",
+    "or_type": "SERVICE INVOICE",
+    "or_atp_no": "044AU20240000006675",
+    "or_atp_date": "2024-05-30",
+    "or_booklet_range": "00001 to 00500 (10 booklets x 50x2)",
+    "verified_on": "2026-05-29",
+    "verified_via": "BIR 2303 photo + Service Invoice booklet 00031 photo"
+  },
+  "Aldo": {
+    "display_name": "Aldo",
+    "name": "RONALDO CATILO INDICIO",
+    "tin": "423-557-958-00000",
+    "address": "15-D DOMINADOR ST. T.S. CRUZ SUBD. BAESA 1106 QUEZON CITY NCR SECOND DISTRICT PHILIPPINES",
+    "zip": "1106",
+    "trade_name": "ALPIL EQUIPMENT RENTALS",
+    "vat_status": "VAT-Registered",
+    "line_of_business": "EQUIPMENT RENTAL (inferred from trade name; full PSIC on BIR 2303 page 1 not captured)",
+    "rdo": "038 - NORTH QUEZON CITY",
+    "revenue_region": "07A - QUEZON CITY",
+    "registration_date": "2012-06-20",
+    "tin_issuance_date": "2012-06-20",
+    "ocn": "038RC20220000001485",
+    "or_type": "OFFICIAL RECEIPT / SERVICE INVOICE",
+    "or_atp_no": "038AU20220000004703",
+    "or_atp_date": "2022-06-15",
+    "or_atp_expiry": "2027-06-14",
+    "or_booklet_range": "001 to 500 (50x2)",
+    "alias": "Aldo",
+    "role": "Proprietor",
+    "linked_beneficiary_id": "BEN-181",
+    "verified_on": "2026-05-29",
+    "verified_via": "BIR 2303 photo + Official Receipt photo"
   }
 }

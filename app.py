@@ -156,7 +156,7 @@ FONT_SIZE = 7
 # Payor is always Pixelens
 PAYOR = {
     "name":    "PIXELENS CREATIVE ADVERTISING INC.",
-    "tin":     "619-447-904-000",
+    "tin":     "619-447-904-00000",
     "address": "G8-4 2ND FLOOR GEMS PLAZA CIRCUMFERENTIAL ROAD SAN JOSE (POB.) CITY OF ANTIPOLO RIZAL",
     "zip":     "1870",
 }
