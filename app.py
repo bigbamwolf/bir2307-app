@@ -169,7 +169,7 @@ def get_atc(supplier_name: str) -> str:
     upper = supplier_name.upper()
     for kw in CORP_KEYWORDS:
         if kw in upper:
-            return "WC100"
+            return "WC120"
     return "WI120"
 
 # ── Field coordinates (reportlab: y = 0 at bottom) ───────────────────
