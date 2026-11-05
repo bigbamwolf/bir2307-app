@@ -3,3 +3,4 @@ __pycache__/
 .DS_Store
 fetch_suppliers.py
 *.log
+.streamlit/secrets.toml

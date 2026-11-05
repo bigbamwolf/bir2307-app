@@ -1,6 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import json
+import os
 import io
 from pypdf import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
@@ -349,6 +350,14 @@ def generate_pdf(payee: dict, month_num: int, amount: float, year: int, atc_code
 # ── Load suppliers ────────────────────────────────────────────────────
 
 def load_suppliers():
+    # Supplier TINs and addresses live in Streamlit secrets on Cloud, the
+    # local suppliers.json is only a fallback.
+    try:
+        raw = st.secrets.get("suppliers_json")
+    except Exception:
+        raw = None
+    if raw:
+        return json.loads(raw)
     with open("suppliers.json", encoding="utf-8") as f:
         return json.load(f)
 
@@ -516,7 +525,8 @@ if st.button("Generate & Download PDF", type="primary", disabled=not ready):
         payee = dict(suppliers[chosen_name])
         if zip_input.strip():
             payee["zip"] = zip_input.strip()
-            if suppliers[chosen_name].get("zip", "") != zip_input.strip():
+            if suppliers[chosen_name].get("zip", "") != zip_input.strip() \
+                    and os.path.exists("suppliers.json"):
                 suppliers[chosen_name]["zip"] = zip_input.strip()
                 with open("suppliers.json", "w", encoding="utf-8") as f:
                     json.dump(suppliers, f, indent=2, ensure_ascii=False)
