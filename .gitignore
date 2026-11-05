@@ -4,3 +4,4 @@ __pycache__/
 fetch_suppliers.py
 *.log
 .streamlit/secrets.toml
+suppliers*.json
