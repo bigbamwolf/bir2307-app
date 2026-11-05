@@ -5,3 +5,9 @@ fetch_suppliers.py
 *.log
 .streamlit/secrets.toml
 suppliers*.json
+
+# PII never committed (security pass 2026-11-05)
+PENDING_2307_*.json
+2307_*.pdf
+pavilion_2026_docs/
+out/
